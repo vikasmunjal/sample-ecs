@@ -7,10 +7,13 @@ phases:
       - timeout 15 sh -c "until docker info; do echo .; sleep 1; done"
   pre_build:
     commands:
+      - aws ecr get-login --no-include-email --region us-east-2
       - docker build -t awscli-access .
       - docker tag awscli-access:latest 309772568585.dkr.ecr.us-east-2.amazonaws.com/awscli-access:latest
   build:
     commands:
-      #- docker images
-      #- docker run helloworld echo "Hello, World!" 
+      - export AWS_ACCESS_KEY_ID=AKIAJGQ45VZ4VUUGSJQQ
+      - export AWS_SECRET_ACCESS_KEY=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
+      - export AWS_DEFAULT_REGION=us-east-1
+      - docker run helloworld echo "Hello, World!" 
 
